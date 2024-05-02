@@ -23,4 +23,5 @@ dependencies = [
 "Bug Tracker" = "https://github.com/mwinokan/HIPPO_plot/issues"
 [tool.hatch.build]
 include = [
+    "hipplot/*.py"
 ]
