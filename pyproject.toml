@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 [project]
 name = "hippo-plot"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
     { name = "Max Winokan", email = "max@winokan.com" },
 ]
@@ -21,12 +21,14 @@ dependencies = [
     "plotly",
     "pandas",
     "dash",
-    "molparse",
+    "rdkit",
 ]
 [project.urls]
 "Homepage" = "https://hippo.winokan.com"
 "Bug Tracker" = "https://github.com/mwinokan/HIPPO_plot/issues"
 [tool.hatch.build]
 include = [
-    "hipplot/*.py"
+    "hippo-plot/*.py"
 ]
+[project.scripts]
+hippo-plot = "hippo-plot.cli:main"
