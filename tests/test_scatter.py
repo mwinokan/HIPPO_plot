@@ -13,8 +13,8 @@ class TestScatter(unittest.TestCase):
 	def setUp(self):
 
 		data = [
-			dict(x=1, y=1, smiles='Cn1ncc(NC(=O)CC#N)c1NC(=O)C1CCCO1'),
-			dict(x=2, y=3, smiles='CN1C=NC2=C1C(=O)N(C(=O)N2C)C'),
+			dict(x=1, y=1, smiles='Cn1ncc(NC(=O)CC#N)c1NC(=O)C1CCCO1', name='merge'),
+			dict(x=2, y=3, smiles='CN1C=NC2=C1C(=O)N(C(=O)N2C)C', name='caffeine'),
 		]
 
 		df = DataFrame(data)
