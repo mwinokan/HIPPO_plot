@@ -47,8 +47,18 @@ def display_hover(hoverData):
 
 	# demo only shows the first point, but other points may also be available
 	pt = hoverData["points"][0]
-	bbox = pt["bbox"]
+
 	num = pt["pointNumber"]
+
+	if 'bbox' in pt:
+		bbox = pt['bbox']
+	elif 'x0' in pt and 'y0' in pt:
+		bbox = {'x0': pt['x0'], 'x1': pt['x1'], 'y0': pt['y0'], 'y1': pt['y1']}
+	else:
+		return False, None, None
+
+	if 'customdata' not in pt:
+		pt['customdata'] = customdata[num]
 
 	### ENCODE THE IMAGE
 	smiles = smiles_strings[num]

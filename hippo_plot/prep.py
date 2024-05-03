@@ -1,18 +1,36 @@
 
 import re
 
+import plotly.graph_objects as go
+
 from mlog import setup_logger
 logger = setup_logger('hippo_plot')
 
 def clean_traces(fig):
-	fig.update_traces(hoverinfo="none", hovertemplate=None)
+
+	trace = fig.data[0]
+	if isinstance(trace, go.Sankey):
+		trace['node']['hovertemplate'] = None
+		trace['node']['hoverinfo'] = "none"
+	else:
+		trace['hovertemplate'] = None
+		trace['hoverinfo'] = "none"
+
+	# fig.update_traces(hoverinfo="none", hovertemplate=None)
 
 def extract_customdata(fig):
 	if len(fig.data) != 1:
 		logger.warning('Using first Figure trace')
 
-	hovertemplate = fig.data[0]['hovertemplate'].replace('%{','{')
-	customdata = fig.data[0]['customdata']
+	# print(fig.data)
+
+	trace = fig.data[0]
+	if isinstance(trace, go.Sankey):
+		hovertemplate = trace['node']['hovertemplate'].replace('%{','{')
+		customdata = trace['node']['customdata']
+	else:
+		hovertemplate = trace['hovertemplate'].replace('%{','{')
+		customdata = trace['customdata']
 
 	assert customdata
 	assert hovertemplate
@@ -27,7 +45,13 @@ def extract_smiles(customdata, hovertemplate, match_index=0):
 
 	cols = {}
 	for match in matches:
-		col_name = re.findall(r'<br>(.*?)={', match)[0]
+
+		print(match)
+		col_matches = re.findall(r'<br>(.*?)={', match)
+		if not col_matches:
+			col_matches = re.findall(r'(.*?)={', match)
+		col_name = col_matches[0]
+
 		col_id = int(re.findall(r'={customdata\[(.*?)\]', match)[0])
 		cols[col_name] = col_id
 
